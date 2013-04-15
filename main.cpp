@@ -21,8 +21,7 @@ int main()
 		k[i]=new krawedz(&g, w[x], w[y], 1);
 		k[i]->setprop("odl", z);
 	}
-	dijkstra dij("odl", "kodl", "odw");
-	dij.init(w[0]);
+	dijkstra dij("odl", "kodl", "odw", w[0]);
 	for(int i=0; i<n; i++)
 		cout<<w[i]->prop("kodl")<<endl;
 	for(int i=0; i<m; i++)

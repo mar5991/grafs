@@ -8,37 +8,43 @@
 #include <set>
 #include <map>
 #include "grafy.hpp"
+
 class dfs
 {
+	void init(graf* g);
 	public:
 	int numerpre;
 	int numerpost;
 	string preo;
 	string poso;
 	string odwi;
-	dfs(string pre, string pos, string odw)
+	dfs(string pre, string pos, string odw, graf* g)
 	{
 		preo=pre;
 		poso=pos;
 		odwi=odw;
+		init(g);
 	}
 	virtual void preorder(wierzcholek* w, int wart)
 	{
+		w->preorder(wart);
 		if(preo!="")
 			w->setprop(preo, wart);
 	}
 	virtual void postorder(wierzcholek* w, int wart)
-	{	
+	{
+		w->postorder(wart);
 		if(preo!="")
 			w->setprop(poso, wart);
 	}
 	virtual void odwiedzone(krawedz* k)
-	{	
+	{
+		k->odwiedzone();
 		if(preo!="")
 			k->setprop(odwi, 1);
 	}
-	void init(graf* g);
 };
+
 class dfsdata : public techdata
 {
 	public:

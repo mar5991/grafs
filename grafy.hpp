@@ -9,42 +9,44 @@
 #include <map>
 using namespace std;
 class krawedz;
+class techdata
+{
+	public:
+	virtual void setodw(bool wart) {}
+	virtual bool odw() {}
+	virtual void setodl(int wart) {}
+	virtual int odl() {}
+};
 class wierzcholek;
 class przegladaniekrawedzi
 {
 	public:
-	virtual void przegladaj(krawedz* k)
-	{
-	}
+	virtual void przegladaj(krawedz* k) {}
 };
 class przegladaniewierzcholkow
 {
 	public:
-	virtual void przegladaj(wierzcholek* w)
-	{
-	}
-};
-class techdata
-{
-	public:
-	virtual void setodw(bool wart)
-	{
-	}
-	virtual bool odw()
-	{
-	}
-	virtual void setodl(int wart)
-	{
-	}
-	virtual int odl()
-	{
-	}
+	virtual void przegladaj(wierzcholek* w) {}
 };
 class graf
 {
-	set <krawedz*> krawedzie;
-	set <wierzcholek*> wierzcholki;
+	vector <krawedz*> krawedzie;
+	vector <wierzcholek*> wierzcholki;
 	public:
+	int wierzcholkisize()
+	{
+		return wierzcholki.size();
+	}
+	int krawedziesize()
+	{
+		return krawedzie.size();
+	}
+	wierzcholek* wierzch(int id)
+	{
+		if(id<wierzcholki.size())
+			return wierzcholki[id];
+		return NULL;
+	}
 	void dodajkrawedz(krawedz* kr);
 	void dodajwierzcholek(wierzcholek* wi);
 	void przegladajkrawedzie(przegladaniekrawedzi *p);
@@ -67,6 +69,11 @@ class krawedz
 	bool czywchodzacy(wierzcholek* w);
 	void setprop(string str, int wart);
 	int prop(string str);
+	virtual int odleglosc(string wart)
+	{
+		return prop(wart);
+	}
+	virtual void odwiedzone() {}
 };
 
 class wierzcholek
@@ -74,13 +81,27 @@ class wierzcholek
 	map <string, int> properities;
 	vector <krawedz*> krawedzie;
 	graf* g;
+	int ide;
 	public:
+	int id()
+	{
+		return ide;
+	}
+	void setid(int wart)
+	{
+		ide=wart;
+	}
 	techdata* danetech;
-	wierzcholek(graf* gr);
 	void dodajkrawedz(krawedz* kraw);
-	void przegladajkrawedzie(przegladaniekrawedzi* p);
+	graf* grafo();
+	wierzcholek(graf* gr);
 	void setprop(string str, int wart);
 	int prop(string str);
-	graf* grafo();
+	void przegladajkrawedzie(przegladaniekrawedzi* p);
+	void przegladajkrawedziewych(przegladaniekrawedzi* p);
+	virtual void poprzkrawedz(krawedz* father) {}
+	virtual void setodleglosc(int wart) {}
+	virtual void preorder (int wart) {}
+	virtual void postorder (int wart) {}
 };
 #endif
